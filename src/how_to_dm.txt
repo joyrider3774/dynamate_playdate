@@ -1,0 +1,24 @@
+How to use dynamate_base in 8 easy steps.
+
+1. dm_init_level( pointer to a level )
+
+2. let the user move the cursor and select
+   the piece he wants to move
+
+3. dm_init_move ( x, y, direction )
+
+4. dm_step();
+
+5. update the graphics
+   dm_cmd() tells you what to do
+   dm_srcx(), dm_srcy() source piece
+   dm_dstx(), dm_dsty() destination
+
+6. if dm_step() (in step 4) returned 0
+   goto step 4
+
+7. if dm_state() == DM_NORMAL goto step 2
+
+8. if dm_state() == DM_FINISHED the level is
+   finished, otherwise the player failed it.
+
