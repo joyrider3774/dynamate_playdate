@@ -788,7 +788,7 @@ void LevelSelectMenu(void)
 		if (Input->KeyboardHeld[SDLK_b])
 		{
 			GameState = GSTITLESCREENINIT;
-				CAudio_PlaySound(Sounds[SND_SELECT], 0);
+			CAudio_PlaySound(Sounds[SND_SELECT], 0);
 		}
 
 		if ((Input->Ready()) && (Input->KeyboardHeld[SDLK_DOWN]))
@@ -2171,8 +2171,11 @@ void LevelEditor(void)
 		
 		if (Input->KeyboardHeld[SDLK_b])
 		{
-			GameState = GSLEVELEDITORMENUINIT;
-			CAudio_PlaySound(Sounds[SND_SELECT], 0);
+			if(SaveEnabled)
+			{
+				GameState = GSLEVELEDITORMENUINIT;
+				CAudio_PlaySound(Sounds[SND_SELECT], 0);
+			}
 		}
 
 		if (Input->KeyboardHeld[SDLK_a])
@@ -2397,8 +2400,10 @@ void LevelEditorMenu(void)
 		if (Input->KeyboardHeld[SDLK_b])
 		{
 			if (SaveEnabled)
+			{
 				GameState = GSLEVELEDITORINIT;
-			CAudio_PlaySound(Sounds[SND_SELECT], 0);
+				CAudio_PlaySound(Sounds[SND_SELECT], 0);
+			}
 		}
 
 		if ((Input->Ready()) && (Input->KeyboardHeld[SDLK_DOWN]))
@@ -2488,7 +2493,7 @@ void LevelEditorMenu(void)
 								PrintMsg("There are no pieces in\nthis level!\n\nPlease Fix this error\nbefore saving!", "Level Error");
 								break;
 							case 3:
-								PrintMsg("There should be at\nleast 2 colored pieces\nin a level !\n\nPlease Fix this error\nbefore saving!", "Level Error");
+								PrintMsg("There should be at\nleast 2 number pieces\nin a level !\n\nPlease Fix this error\nbefore saving!", "Level Error");
 								break;
 						}
 					}
