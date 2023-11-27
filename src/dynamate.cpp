@@ -1562,6 +1562,45 @@ void LevelTypeMenu(void)
 
 }
 
+bool CreditsInit(void)
+{
+	Selected = 0;
+	if (Input->KeyboardHeld[SDLK_a] || Input->KeyboardHeld[SDLK_b] || Input->KeyboardHeld[SDLK_UP] ||
+		Input->KeyboardHeld[SDLK_LEFT] || Input->KeyboardHeld[SDLK_DOWN] || Input->KeyboardHeld[SDLK_RIGHT] )
+		return false;
+	Input->SetUpdateDelay(10);
+	Input->Reset();
+	return true;
+}
+
+void Credits(void)
+{
+	LCDBitmap *Tmp1 = NULL;
+
+	if (GameState == GSCREDITSINIT)
+	{
+		if (CreditsInit())
+			GameState -= GSINITDIFF;
+	}
+
+	if (GameState == GSCREDITS)
+	{
+		if (Input->KeyboardHeld[SDLK_a] || Input->KeyboardHeld[SDLK_b])
+		{
+			CAudio_PlaySound(Sounds[SND_SELECT], 0);
+			GameState = GSTITLESCREENINIT;
+		
+		}
+	}
+	pd->graphics->setBackgroundColor(kColorWhite);
+	pd->graphics->clear(kColorWhite);
+	pd->graphics->drawBitmap(TitleScreen, 0, 0, kBitmapUnflipped);
+
+	Tmp1 = pd->graphics->copyBitmap(Menu);
+	drawTextColor(true, NULL, roobert, "Dynamate for playdate is created by Willems Davy.\nIt is a port of my GP2X version of the game.\n\nDynamate Engine created by Bjorn Kalzen and\nJonas Nordberg.\n\nGraphics are a modified version of graphics made\nby Flavor for the gp32 version of the game.\n\nMusic by Don Skeeto.", 1000, kASCIIEncoding, 0,70, kColorBlack, false);
+}
+
+
 bool TitleScreenMenuInit(void)
 {
 	Selected = 0;
@@ -1590,7 +1629,7 @@ void TitleScreenMenu(void)
 		if ((Input->Ready()) && (Input->KeyboardHeld[SDLK_DOWN]))
 		{
 			Selected++;
-			if (Selected > 1)
+			if (Selected > 2)
 				Selected = 0;
 			CAudio_PlaySound(Sounds[SND_MENU], 0);
 			Input->Delay();
@@ -1600,7 +1639,7 @@ void TitleScreenMenu(void)
 		{
 			Selected--;
 			if (Selected < 0)
-				Selected = 1;
+				Selected = 2;
 			CAudio_PlaySound(Sounds[SND_MENU], 0);
 			Input->Delay();
 		}
@@ -1622,6 +1661,9 @@ void TitleScreenMenu(void)
 					StaticLevels = false;
 					Cursor->SetXY(8, 8);
 					GameState = GSLEVELEDITORMENUINIT;
+					break;
+				case 2: // Credits
+					GameState = GSCREDITSINIT;
 					break;
 				default:
 					break;
@@ -1650,6 +1692,15 @@ void TitleScreenMenu(void)
 	else
 	{
 		SFont_WriteCenter(Tmp1, FontLight, 50, "Level Editor");
+	}
+
+	if (Selected == 2)
+	{
+		SFont_WriteCenter(Tmp1, FontDark, 73, "Credits");
+	}
+	else
+	{
+		SFont_WriteCenter(Tmp1, FontLight, 73, "Credits");
 	}
 
 	int w, h;
@@ -2797,6 +2848,10 @@ static int mainLoop(void* ud)
 		case GSLEVELEDITORLEVELSELECTINIT:
 		case GSLEVELEDITORLEVELSELECT:
 			LevelEditorLevelSelect();
+			break;
+		case GSCREDITSINIT:
+		case GSCREDITS:
+			Credits();
 			break;
 		case GSGETNAMEINIT:
 		case GSGETNAME:
