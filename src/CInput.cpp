@@ -4,7 +4,8 @@
 #include "crank.h"
 
 CInput::CInput(PlaydateAPI *pd_api, int UpdateCounterDelay) {
-    Reset();
+    Enabled = true;
+	Reset();
 	pda = pd_api;
     PUpdateCounterDelay = UpdateCounterDelay;
     UpdateCounter = 0;
@@ -14,7 +15,20 @@ CInput::CInput(PlaydateAPI *pd_api, int UpdateCounterDelay) {
 CInput::~CInput() {
 }
 
+void CInput::Disable()
+{
+	Enabled = false;
+	Reset();
+}
+
+void CInput::Enable()
+{
+	Enabled = true;
+}
+
 void CInput::Update() {
+	if(!Enabled)
+		return;
     //printf("Cinput::update:0\n");
     if (UpdateCounter > 0)
 	{

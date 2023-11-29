@@ -20,6 +20,8 @@ class CInput {
         bool KeyboardHeld[SDLK_LAST];
         CInput(PlaydateAPI *pd_api, int UpdateCounterDelay);
         ~CInput(void);
+		void Disable();
+		void Enable();
         void Update();
         void Reset();
         bool Ready(){ return (UpdateCounter == 0);};
@@ -28,6 +30,7 @@ class CInput {
     private:
        int UpdateCounter;
        int PUpdateCounterDelay;
+	   bool Enabled;
 	   PlaydateAPI *pda;
 
 };
