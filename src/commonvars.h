@@ -44,6 +44,7 @@ extern LCDBitmap *LevelData,
 	*SFontDark,
 	*SFontLight;
 
+extern float menuAlpha;
 extern int Selected;
 extern uint32_t Time1;
 extern int IntroScreenNr;
@@ -51,7 +52,7 @@ extern CInput * Input;
 extern SFont_Font *FontDark, *FontLight;
 extern CCursor * Cursor;
 extern uint32_t NextTime;
-extern int GameState;
+extern int GameState, NextGameState;
 extern int HighScores[MAXSTATICLEVELS];
 extern int lvl, MaxLevels, UserLevelCount, MusicCount, SelectedMusic, Volume, StartScreenX, StartScreenY, InitialStartScreenX, InitialStartScreenY;
 extern bool StaticLevels, SaveEnabled;

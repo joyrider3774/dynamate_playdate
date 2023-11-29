@@ -42,6 +42,127 @@ LCDPattern kColorGrey = {
 	0b11111111,
 };
 
+//START: from discord by rezich
+const uint8_t PATTERN_WHITE[8] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+const uint8_t PATTERN_BLACK[8] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+
+const uint8_t BAYER[8][8] = {
+    { 0, 32,  8, 40,  2, 34, 10, 42},
+    {48, 16, 56, 24, 50, 18, 58, 26},
+    {12, 44,  4, 36, 14, 46,  6, 38},
+    {60, 28, 52, 20, 62, 30, 54, 22},
+    { 3, 35, 11, 43,  1, 33,  9, 41},
+    {51, 19, 59, 27, 49, 17, 57, 25},
+    {15, 47,  7, 39, 13, 45,  5, 37},
+    {63, 31, 55, 23, 61, 29, 53, 21}
+};
+
+//from discord by rezich
+void pattern_set_alpha(LCDPattern* pattern, float alpha) { // alpha goes from 0 (invisible) to 1 (fully opaque)
+    const uint8_t threshold = (uint8_t)((1.f - alpha) * 64.f);
+    for (int row = 0; row < 8; ++row) 
+		for (int col = 0; col < 8; ++col)
+        	if (BAYER[row][col] >= threshold) 
+				(*pattern)[8 + row] |=  (1 << col); // set
+        	else                              
+				(*pattern)[8 + row] &= ~(1 << col); // clear
+}
+
+void pattern_set_black(LCDPattern* pattern) { memcpy(*pattern, PATTERN_BLACK, sizeof(PATTERN_BLACK)); }
+void pattern_set_white(LCDPattern* pattern) { memcpy(*pattern, PATTERN_WHITE, sizeof(PATTERN_WHITE)); }
+
+//END: from discord by rezich
+
+void bitmap_set_alpha_rect(LCDBitmap *Bitmap, int rx, int ry, int rw, int rh, float alpha)
+{
+	if (!Bitmap)
+		return;
+
+	LCDPattern pattern;
+	pattern_set_black(&pattern);
+	pattern_set_alpha(&pattern, 1.0f - alpha);
+	
+	LCDBitmap* mask = pd->graphics->getBitmapMask(Bitmap);
+	pd->graphics->pushContext(mask);
+	pd->graphics->fillRect(rx,ry,rw,rh, (LCDColor)pattern);
+	pd->graphics->popContext();
+
+	pd->graphics->setBitmapMask(Bitmap, mask);
+}
+
+void bitmap_set_alpha(LCDBitmap* Bitmap, float alpha) 
+{
+	if (!Bitmap)
+		return;
+	int w, h;
+	pd->graphics->getBitmapData(Bitmap, &w, &h, NULL, NULL, NULL);
+	bitmap_set_alpha_rect(Bitmap, 0, 0, w, h, alpha);
+}
+	
+    
+
+float fadeAlpha = 1.0f;
+bool fadeUseWhite = true;;
+eFadeType fadeFadeType = fadeNone;
+float fadeStep = 0.01f;
+eFadeType prevFadeType = fadeNone;
+
+void startFade(eFadeType fadeType, bool useWhite, float step)
+{
+	prevFadeType = fadeType;
+	fadeFadeType = fadeType;
+	if (fadeFadeType == fadeIn)
+	{
+		fadeAlpha = 1.0f;
+		fadeStep = -step;
+	}
+
+	if (fadeFadeType == fadeOut)
+	{
+		fadeAlpha = 0.0f;
+		fadeStep = step;
+	}
+	fadeUseWhite = useWhite;
+}
+
+eFadeType handleFade() {
+	eFadeType ret = fadeFadeType;
+	if (ret == fadeNone)
+		return ret;
+	LCDPattern pattern;
+	if(fadeUseWhite)
+		pattern_set_white(&pattern);
+	else
+		pattern_set_black(&pattern);
+	
+	fadeAlpha += fadeStep;
+
+	if (fadeFadeType == fadeIn)
+	{
+		if (fadeAlpha < 0.0f)
+		{
+			fadeAlpha = 0.0f;
+			fadeFadeType = fadeNone;
+		}
+	}
+	
+	if(fadeFadeType == fadeOut)
+	{
+		if (fadeAlpha > 1.0f)
+		{
+			fadeAlpha = 1.0f;
+			fadeFadeType = fadeNone;
+		}		
+	}
+	pattern_set_alpha(&pattern, fadeAlpha);
+	
+	if(ret != fadeNone)
+		pd->graphics->fillRect(0,0, LCD_COLUMNS, LCD_ROWS, (LCDColor) pattern);
+	
+	
+	return fadeFadeType;
+}
+
 void drawTextColor(bool IgnoreBitmapContext, LCDBitmap* BitmapContext, LCDFont* font, const char* text, size_t len, PDStringEncoding encoding, int x, int y, LCDColor color, bool inverted)
 {
 	//grab width & height of our to be rendered text

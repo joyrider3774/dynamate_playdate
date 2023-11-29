@@ -15,6 +15,34 @@
 #include "commonvars.h"
 #include "CAudio.h"
 
+void setNextGameState(int nextState, eFadeType fadeType, bool useWhite)
+{
+	if(NextGameState == -1)
+	{
+		NextGameState = nextState;
+		startFade(fadeType, useWhite, 0.075);
+		Input->Disable();
+	}
+}
+
+bool HandleNextGameState()
+{
+	if(NextGameState == -1)
+	{
+		Input->Enable();
+		return true;
+	}
+
+	if(handleFade() == fadeNone)
+	{
+		GameState = NextGameState;
+		Input->Enable();
+		NextGameState = -1;
+		return true;
+	}
+	return false;
+}
+
 void LoadHighScores()
 {
 	SDFile *File;
@@ -275,6 +303,7 @@ void DrawPieces(LCDBitmap *Surface)
 
 			if (piecenr != 0)
 			{
+				pd->graphics->pushContext(Surface);
 				if(piecenr != 1)
 				{
 					Src.x = 0;
@@ -644,6 +673,9 @@ void doGetName()
 		pd->graphics->freeBitmap(Tmp1);
 
 	Tmp1 = pd->graphics->copyBitmap(Menu);
+	int h;
+	pd->graphics->getBitmapData(Tmp1, &w, &h, NULL, NULL, NULL);
+	bitmap_set_alpha_rect(Tmp1, 3, 3, w-8, h-7, menuAlpha);
 	pd->graphics->pushContext(Tmp1);
 	pd->graphics->setFont(roobert);
 	for (y1 = 0; y1 < 6; y1++)
@@ -682,8 +714,6 @@ void doGetName()
 
 	pd->graphics->popContext();
 
-	int h;
-	pd->graphics->getBitmapData(Tmp1, &w, &h, NULL, NULL, NULL);
 
 	pd->graphics->drawBitmap(Tmp1, 120 - (w / 2), (WINDOW_HEIGHT / 2) - (h / 2), kBitmapUnflipped);
 
@@ -739,15 +769,14 @@ void doPrintMsg()
 
 	
 	Tmp1 = pd->graphics->copyBitmap(Menu);
+	int w, h;
+	pd->graphics->getBitmapData(Tmp1, &w, &h, NULL, NULL, NULL);
+	bitmap_set_alpha_rect(Tmp1, 3, 3, w-8, h-7, menuAlpha);
 	SFont_WriteCenter(Tmp1, FontDark, 4, printMsgTitle);
 	pd->graphics->pushContext(Tmp1);
 	pd->graphics->setFont(roobert);
 	pd->graphics->drawText(printMsgText, strlen(printMsgText), kASCIIEncoding, 8, 30);
 	pd->graphics->popContext();
-	
-	int w, h;
-	pd->graphics->getBitmapData(Tmp1, &w, &h, NULL, NULL, NULL);
-	
 	
 	pd->graphics->drawBitmap(Tmp1,120 - (w / 2), (WINDOW_HEIGHT / 2) - (h / 2), kBitmapUnflipped);
 
@@ -896,6 +925,9 @@ void LevelSelectMenu(void)
 		pd->graphics->freeBitmap(Tmp1);
 
 	Tmp1 = pd->graphics->copyBitmap(Menu);
+	int h;
+	pd->graphics->getBitmapData(Tmp1, &w, &h, NULL, NULL, NULL);
+	bitmap_set_alpha_rect(Tmp1, 3, 3, w-8, h-7, menuAlpha);
 
 	SFont_WriteCenter(Tmp1, FontDark, 4, "Select Level");
 	if (Selected == 0)
@@ -933,8 +965,6 @@ void LevelSelectMenu(void)
 	{
 		SFont_WriteCenter(Tmp1, FontLight, 84, "Quit");
 	}
-	int h;
-	pd->graphics->getBitmapData(Tmp1, &w, &h, NULL, NULL, NULL);
 	pd->graphics->pushContext(Tmp1);
 	if (StaticLevels)
 	{
@@ -952,7 +982,7 @@ void LevelSelectMenu(void)
 		}
 	}
 	pd->graphics->popContext();
-	
+		
 	pd->graphics->drawBitmap(Tmp1, 120 - (w / 2), (WINDOW_HEIGHT / 2) - (h / 2), kBitmapUnflipped);
 	if (Tmp1)
 		pd->graphics->freeBitmap(Tmp1);
@@ -1066,9 +1096,10 @@ void WinMenu(void)
 	DrawLevel(NULL);
 
 	Tmp1 = pd->graphics->copyBitmap(Menu);
-	SFont_WriteCenter(Tmp1, FontDark, 4, "You Win!");
 	int w, h;
 	pd->graphics->getBitmapData(Tmp1, &w, &h, NULL, NULL, NULL);
+	bitmap_set_alpha_rect(Tmp1, 3, 3, w-8, h-7, menuAlpha);
+	SFont_WriteCenter(Tmp1, FontDark, 4, "You Win!");
 	pd->graphics->pushContext(Tmp1);
 	if (lvl == MaxLevels - 1)
 	{
@@ -1097,11 +1128,11 @@ void WinMenu(void)
 
 	if (Selected == 2)
 	{
-		SFont_WriteCenter(Tmp1, FontDark, 82, "SelectLevel");
+		SFont_WriteCenter(Tmp1, FontDark, 82, "Select Level");
 	}
 	else
 	{
-		SFont_WriteCenter(Tmp1, FontLight, 82, "SelectLevel");
+		SFont_WriteCenter(Tmp1, FontLight, 82, "Select Level");
 	}
 
 	if (Selected == 3)
@@ -1202,9 +1233,10 @@ void DiedMenu(void)
 	DrawLevel(NULL);
 
 	Tmp1 = pd->graphics->copyBitmap(Menu);
-	SFont_WriteCenter(Tmp1, FontDark, 4, "You Died!");
 	int w, h, w2;
 	pd->graphics->getBitmapData(Tmp1, &w, &h, NULL, NULL, NULL);
+	bitmap_set_alpha_rect(Tmp1, 3, 3, w-8, h-7, menuAlpha);
+	SFont_WriteCenter(Tmp1, FontDark, 4, "You Died!");
 	pd->graphics->pushContext(Tmp1);
 	switch (dm_state())
 	{
@@ -1346,15 +1378,16 @@ void IngameMenu(void)
 			}
 		}
 	}
-    pd->graphics->setBackgroundColor(kColorBlack);
+	pd->graphics->setBackgroundColor(kColorBlack);
 	pd->graphics->clear(kColorBlack);
 	pd->graphics->drawBitmap(Background, 0, 0, kBitmapUnflipped);
 	DrawLevel(NULL);
 
 	Tmp1 = pd->graphics->copyBitmap(Menu);
-	SFont_WriteCenter(Tmp1, FontDark, 4, "Game Menu");
 	int w, h;
 	pd->graphics->getBitmapData(Tmp1, &w, &h, NULL, NULL, NULL);
+	bitmap_set_alpha_rect(Tmp1, 3, 3, w-8, h-7, menuAlpha);
+	SFont_WriteCenter(Tmp1, FontDark, 4, "Game Menu");
 	if (Selected == 0)
 	{
 		SFont_WriteCenter(Tmp1, FontDark, 27, "Resume Play");
@@ -1575,8 +1608,6 @@ bool CreditsInit(void)
 
 void Credits(void)
 {
-	LCDBitmap *Tmp1 = NULL;
-
 	if (GameState == GSCREDITSINIT)
 	{
 		if (CreditsInit())
@@ -1596,7 +1627,6 @@ void Credits(void)
 	pd->graphics->clear(kColorWhite);
 	pd->graphics->drawBitmap(TitleScreen, 0, 0, kBitmapUnflipped);
 
-	Tmp1 = pd->graphics->copyBitmap(Menu);
 	drawTextColor(true, NULL, roobert, "Dynamate for playdate is created by Willems Davy.\nIt is a port of my GP2X version of the game.\n\nDynamate Engine created by Bjorn Kalzen and\nJonas Nordberg.\n\nGraphics are a modified version of graphics made\nby Flavor for the gp32 version of the game.\n\nMusic by Don Skeeto.", 1000, kASCIIEncoding, 0,70, kColorBlack, false);
 }
 
@@ -2124,6 +2154,9 @@ void LevelEditorLevelSelect(void)
 		pd->graphics->freeBitmap(Tmp1);
 
 	Tmp1 = pd->graphics->copyBitmap(Menu);
+	int h;
+	pd->graphics->getBitmapData(Tmp1, &w, &h, NULL, NULL, NULL);
+	bitmap_set_alpha_rect(Tmp1, 3, 3, w-8, h-7, menuAlpha);
 
 	SFont_WriteCenter(Tmp1, FontDark, 4, "Select Level");
 	if (Selected == 0)
@@ -2172,8 +2205,6 @@ void LevelEditorLevelSelect(void)
 		SFont_WriteCenter(Tmp1, FontLight, 104, "Back");
 	}
 
-	int h;
-	pd->graphics->getBitmapData(Tmp1, &w, &h, NULL, NULL, NULL);
 	pd->graphics->pushContext(Tmp1);
 	if (StaticLevels)
 	{
@@ -2465,17 +2496,16 @@ void LevelEditorMenu(void)
 				Selected = 0;
 			}
 
-			if (UserLevelCount == 0)
+			if (Selected == 1)
 			{
-				if (Selected == 1)
-				{
-					if (SaveEnabled)
-						Selected = 2;
-					else
-						Selected = 4;
-				}
+				if (UserLevelCount == 0)
+					Selected = 2;
 			}
 
+			if (Selected == 2)
+				if (!SaveEnabled)
+					Selected = 4;
+			
 			CAudio_PlaySound(Sounds[SND_MENU], 0);
 			Input->Delay();
 		}
@@ -2488,19 +2518,17 @@ void LevelEditorMenu(void)
 				Selected = 4;
 			}
 
+			if (Selected == 3)
+			{
+				if (!SaveEnabled)
+					Selected = 1;
+			}
+
 			if (UserLevelCount == 0)
 			{
 				if (Selected == 1)
 				{
 					Selected = 0;
-				}
-
-				if (Selected == 3)
-				{
-					if (SaveEnabled)
-						Selected = 3;
-					else
-						Selected = 0;
 				}
 			}
 
@@ -2572,6 +2600,9 @@ void LevelEditorMenu(void)
 	DrawLevel(NULL);
 
 	Tmp1 = pd->graphics->copyBitmap(Menu);
+	int w, h;
+	pd->graphics->getBitmapData(Tmp1, &w, &h, NULL, NULL, NULL);
+	bitmap_set_alpha_rect(Tmp1, 3, 3, w-8, h-7, menuAlpha);
 	SFont_WriteCenter(Tmp1, FontDark, 4, "Level Editor");
 	if (Selected == 0)
 	{
@@ -2618,8 +2649,6 @@ void LevelEditorMenu(void)
 		SFont_WriteCenter(Tmp1, FontLight, 101, "Quit");
 	}
 
-	int w, h;
-	pd->graphics->getBitmapData(Tmp1, &w, &h, NULL, NULL, NULL);
 	pd->graphics->drawBitmap(Tmp1, 120 - (w / 2), (WINDOW_HEIGHT / 2) - (h / 2), kBitmapUnflipped);
 	if (Tmp1)
 		pd->graphics->freeBitmap(Tmp1);
@@ -2636,6 +2665,7 @@ bool IntroInit()
 	Time1 = pd->system->getElapsedTime();
 	Input->SetUpdateDelay(10);
 	Input->Reset();
+	startFade(fadeIn, true, 0.075);
 	return true;
 }
 
@@ -2672,12 +2702,22 @@ void Intro()
 			break;
 	}
 
-	if (Time1 + 3.700f < pd->system->getElapsedTime())
+	if ((Time1 + 3.700f < pd->system->getElapsedTime()))
 	{
-		IntroScreenNr++;
-		if (IntroScreenNr > 4)
-			GameState = GSTITLESCREENINIT;
-		Time1 = pd->system->getElapsedTime();
+		startFade(fadeOut, true, 0.075);
+		Time1 = pd->system->getElapsedTime();	
+	}	
+
+	if(handleFade() == fadeNone)
+	{
+		if (prevFadeType == fadeOut)
+		{
+			IntroScreenNr++;
+			if (IntroScreenNr > 4)
+				GameState = GSTITLESCREENINIT;	
+			else
+				startFade(fadeIn, true, 0.075);
+		}
 	}
 }
 
@@ -2783,7 +2823,7 @@ static void setupGame()
 	Input = new CInput(pd, 10);
 	const char *err;
 	roobert = pd->graphics->loadFont("fonts/Roobert-10-Bold", &err);
-	showFPS = true;
+	showFPS = false;
 	
 	pd->graphics->setBackgroundColor(kColorWhite);
 }

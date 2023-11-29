@@ -8,7 +8,7 @@ unsigned int prevLogTime;
 unsigned int FrameTime, Frames;
 float CurrentMs;
 bool BatteryMonitoring;
-bool showFPS = true;
+bool showFPS = false;
 
 LCDBitmap *LevelData,
 	*Screen,
@@ -32,6 +32,7 @@ LCDBitmap *LevelData,
 	*SFontDark,
 	*SFontLight;
 
+float menuAlpha = 0.75f;
 int Selected = 0;
 uint32_t Time1 = 0;
 int IntroScreenNr = 1;
@@ -39,7 +40,7 @@ CInput * Input;
 SFont_Font *FontDark, *FontLight;
 CCursor * Cursor;
 uint32_t NextTime = 0;
-int GameState = GSINTRO;
+int GameState = GSINTROINIT, NextGameState = -1;
 int HighScores[MAXSTATICLEVELS];
 int lvl = 0, MaxLevels, UserLevelCount = 0, MusicCount = 0, SelectedMusic = 0, Volume = 128, StartScreenX = 0, StartScreenY = 0, InitialStartScreenX = 20, InitialStartScreenY = 24;
 bool StaticLevels, SaveEnabled = false, TvOutMode = false;

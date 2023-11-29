@@ -23,6 +23,20 @@
 // Set the pixel at x, y to the specified color.
 #define drawpixel(data, x, y, rowbytes, color) (((color) == kColorBlack) ? setpixel((data), (x), (y), (rowbytes)) : clearpixel((data), (x), (y), (rowbytes)))
 
+void pattern_set_black(LCDPattern* pattern);
+void pattern_set_white(LCDPattern* pattern);
+void pattern_set_alpha(LCDPattern* pattern, float alpha);
+void bitmap_set_alpha(LCDBitmap* Bitmap, float alpha);
+void bitmap_set_alpha_rect(LCDBitmap *Bitmap, int rx, int ry, int rw, int rh, float alpha);
+
+enum eFadeType {fadeNone, fadeIn, fadeOut};
+typedef enum eFadeType eFadeType;
+
+extern eFadeType prevFadeType;
+
+eFadeType handleFade();
+void startFade(eFadeType fadeType, bool useWhite, float step);
+
 extern LCDPattern kColorGrey;
 extern PlaydateAPI* pd;
 extern long int DrawTextColorBitmapCacheMisses;
@@ -35,4 +49,5 @@ LCDBitmapTable* loadBitmapTableAtPath(const char* path);
 unsigned int logPower(const char* filename, unsigned int logIntervalSeconds, unsigned int prevLogTime);
 void setPDPtr(PlaydateAPI* playdate);
 void pdDelay(unsigned int milliseconds);
+
 #endif
