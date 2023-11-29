@@ -7,7 +7,6 @@
 #define MAXSTATICLEVELS 30
 #define MAXUSERLEVELS 1000
 
-#define FPS 30
 #define MAXMUSICFILES 25
 #define NROFSOUNDS 8
 
