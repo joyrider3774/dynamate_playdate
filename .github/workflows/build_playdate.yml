@@ -25,10 +25,9 @@ jobs:
       # ==== Build Steps ====
       - name: Check out Sources
         uses: actions/checkout@v3
-      
-      - name: Checkout submodules
-        uses: textbook/git-checkout-submodule-action@master
-      
+        with:
+          submodules: recursive
+
       - name: Grab Playdate SDK
         uses: wei/wget@v1
         with:
