@@ -86,8 +86,9 @@ void bitmap_set_alpha_rect(LCDBitmap *Bitmap, int rx, int ry, int rw, int rh, fl
 	pd->graphics->pushContext(mask);
 	pd->graphics->fillRect(rx,ry,rw,rh, (LCDColor)pattern);
 	pd->graphics->popContext();
-
-	pd->graphics->setBitmapMask(Bitmap, mask);
+	//docs does not metion it but seems we need to free the mask returned ?
+	//otherwise get 32 bytes of leaks per call to getbitmapmask
+	pd->graphics->freeBitmap(mask);
 }
 
 void bitmap_set_alpha(LCDBitmap* Bitmap, float alpha) 
