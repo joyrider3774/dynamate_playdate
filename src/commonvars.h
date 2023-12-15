@@ -46,12 +46,11 @@ extern LCDBitmap *LevelData,
 
 extern float menuAlpha;
 extern int Selected;
-extern uint32_t Time1;
+extern unsigned int Time1;
 extern int IntroScreenNr;
 extern CInput * Input;
 extern SFont_Font *FontDark, *FontLight;
 extern CCursor * Cursor;
-extern uint32_t NextTime;
 extern int GameState, NextGameState;
 extern int HighScores[MAXSTATICLEVELS];
 extern int lvl, MaxLevels, UserLevelCount, MusicCount, SelectedMusic, Volume, StartScreenX, StartScreenY, InitialStartScreenX, InitialStartScreenY;
@@ -72,7 +71,6 @@ extern LCDFont *roobert;
 extern char UnlockData[30];
 extern dm_user_lev UserLevel;
 extern char UserLevelsFilenames[MAXUSERLEVELS][256];
-extern uint32_t Time;
 extern int Sounds[NROFSOUNDS];
 extern int Music[MAXMUSICFILES];
 extern int Selection;

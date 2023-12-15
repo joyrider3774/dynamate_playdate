@@ -75,6 +75,10 @@ void pattern_set_white(LCDPattern* pattern) { memcpy(*pattern, PATTERN_WHITE, si
 
 void bitmap_set_alpha_rect(LCDBitmap *Bitmap, int rx, int ry, int rw, int rh, float alpha)
 {
+//does not work in SDL2API due to masks not working correctly at all
+#ifdef SDL2API
+	return;
+#endif
 	if (!Bitmap)
 		return;
 
@@ -159,7 +163,6 @@ eFadeType handleFade() {
 	
 	if(ret != fadeNone)
 		pd->graphics->fillRect(0,0, LCD_COLUMNS, LCD_ROWS, (LCDColor) pattern);
-	
 	
 	return fadeFadeType;
 }

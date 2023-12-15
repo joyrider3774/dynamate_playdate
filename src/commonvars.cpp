@@ -34,12 +34,11 @@ LCDBitmap *LevelData,
 
 float menuAlpha = 0.75f;
 int Selected = 0;
-uint32_t Time1 = 0;
+unsigned int Time1 = 0;
 int IntroScreenNr = 1;
 CInput * Input;
 SFont_Font *FontDark, *FontLight;
 CCursor * Cursor;
-uint32_t NextTime = 0;
 int GameState = GSINTROINIT, NextGameState = -1;
 int HighScores[MAXSTATICLEVELS];
 int lvl = 0, MaxLevels, UserLevelCount = 0, MusicCount = 0, SelectedMusic = 0, Volume = 128, StartScreenX = 0, StartScreenY = 0, InitialStartScreenX = 20, InitialStartScreenY = 24;
@@ -62,7 +61,6 @@ LCDFont *roobert;
 char UnlockData[30];
 dm_user_lev UserLevel;
 char UserLevelsFilenames[MAXUSERLEVELS][256];
-uint32_t Time = 0;
 int Sounds[NROFSOUNDS];
 int Music[MAXMUSICFILES];
 int Selection = 0;

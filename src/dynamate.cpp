@@ -1,4 +1,6 @@
+#ifndef SDL2API
 #include <pdcpp/pdnewlib.h>
+#endif
 #include <stdlib.h>
 #include <fstream>
 #include <string.h>
@@ -20,7 +22,7 @@ void setNextGameState(int nextState, eFadeType fadeType, bool useWhite)
 	if(NextGameState == -1)
 	{
 		NextGameState = nextState;
-		startFade(fadeType, useWhite, 0.075);
+		startFade(fadeType, useWhite, 0.075f);	
 		Input->Disable();
 	}
 }
@@ -40,6 +42,7 @@ bool HandleNextGameState()
 		NextGameState = -1;
 		return true;
 	}
+
 	return false;
 }
 
@@ -2662,10 +2665,10 @@ bool IntroInit()
 	if (Input->KeyboardHeld[SDLK_a] || Input->KeyboardHeld[SDLK_b] || Input->KeyboardHeld[SDLK_UP] ||
 		Input->KeyboardHeld[SDLK_LEFT] || Input->KeyboardHeld[SDLK_DOWN] || Input->KeyboardHeld[SDLK_RIGHT] )
 		return false;
-	Time1 = pd->system->getElapsedTime();
+	Time1 = pd->system->getCurrentTimeMilliseconds();
 	Input->SetUpdateDelay(10);
 	Input->Reset();
-	startFade(fadeIn, true, 0.075);
+	startFade(fadeIn, true, 0.075f);
 	return true;
 }
 
@@ -2702,10 +2705,10 @@ void Intro()
 			break;
 	}
 
-	if ((Time1 + 3.700f < pd->system->getElapsedTime()))
+	if ((Time1 + 3700 < pd->system->getCurrentTimeMilliseconds()))
 	{
-		startFade(fadeOut, true, 0.075);
-		Time1 = pd->system->getElapsedTime();	
+		startFade(fadeOut, true, 0.075f);
+		Time1 = pd->system->getCurrentTimeMilliseconds();	
 	}	
 
 	if(handleFade() == fadeNone)
@@ -2716,7 +2719,7 @@ void Intro()
 			if (IntroScreenNr > 4)
 				GameState = GSTITLESCREENINIT;	
 			else
-				startFade(fadeIn, true, 0.075);
+				startFade(fadeIn, true, 0.075f);
 		}
 	}
 }
@@ -2926,7 +2929,9 @@ static int mainLoop(void* ud)
 }
 
 #ifdef __cplusplus
+#ifndef SDL2API
 extern "C" {
+#endif
 #endif
 
 #ifdef _WINDLL
@@ -2937,7 +2942,9 @@ int eventHandler(PlaydateAPI* playdate, PDSystemEvent event, uint32_t arg)
 {
 	if ( event == kEventInit )
 	{
-		eventHandler_pdnewlib(pd, event, arg);		
+		#ifndef SDL2API
+		eventHandler_pdnewlib(pd, event, arg);
+		#endif
 		setPDPtr(playdate);
 		playdate->display->setRefreshRate(FRAMERATE);
 		playdate->display->setOffset(40,0);
@@ -2953,5 +2960,7 @@ int eventHandler(PlaydateAPI* playdate, PDSystemEvent event, uint32_t arg)
 }
 
 #ifdef __cplusplus
+#ifndef SDL2API
 }
+#endif
 #endif
