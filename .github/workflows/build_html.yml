@@ -27,12 +27,11 @@ jobs:
           path: emsdk
           repository: 'emscripten-core/emsdk'
 
-      - name: Setup homebrew stuff
+      - name: Setup EMSDK stuff
         run: |
             cd emsdk
             ./emsdk install latest
-            ./emsdk activate latest
-            source ./emsdk_env.sh
+            ./emsdk activate latest            
        
       - name: move things to correct directories
         run: |
@@ -42,6 +41,7 @@ jobs:
 
       - name: Build Game        
         run: |
+          source ./emsdk/emsdk_env.sh
           emmake make CPP_BUILD=1 EMSCRIPTEN_BUILD=1
 
       - name: Store build
