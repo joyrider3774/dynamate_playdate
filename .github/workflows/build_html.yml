@@ -19,15 +19,15 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v3
         with:
-          path: emsdk
-          repository: 'emscripten-core/emsdk'
-          
-      - name: Checkout Playdate SDL2 Api Sources
+          path: tmp
+        
+      - name: Checkout EMSDK sources
         uses: actions/checkout@v3
         with:
-          repository: 'joyrider3774/Playdate_Api_SDL2'
-      
-      - name: Setup emscripten stuff
+          path: emsdk
+          repository: 'emscripten-core/emsdk'
+
+      - name: Setup homebrew stuff
         run: |
             cd emsdk
             ./emsdk install latest
