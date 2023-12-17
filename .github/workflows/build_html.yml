@@ -14,7 +14,7 @@ jobs:
       - name: Grab FFMPEG
         run: |
           sudo apt-get update
-          sudo apt-get ffmpeg
+          sudo apt-get install ffmpeg
           
       - name: Checkout Playdate SDL2 Api Sources
         uses: actions/checkout@v3
