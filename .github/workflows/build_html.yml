@@ -11,6 +11,11 @@ jobs:
   build:
     runs-on: ubuntu-latest    
     steps:
+      - name: Grab FFMPEG
+      - run: |
+          sudo apt-get update
+          sudo apt-get ffmpeg
+          
       - name: Checkout Playdate SDL2 Api Sources
         uses: actions/checkout@v3
         with:
