@@ -2808,8 +2808,29 @@ void UnLoadGraphics(void)
 
 }
 
+void resetGlobals()
+{
+	menuAlpha = 0.75f;
+	Selected = 0;
+	Time1 = 0;
+	IntroScreenNr = 1;
+	GameState = GSINTROINIT;
+	NextGameState = -1;
+	lvl = 0;
+	UserLevelCount = 0;
+	SaveEnabled = false;
+	GetNameResult = false;
+	GetNameDone = false;
+	printMsgDone = false;
+	GetNameX = 0;
+	GetNameY = 0;
+	Selection = 0;
+	SelectedPiece = 0x80 | DM_P_VERT;
+}
+
 static void setupGame()
 {
+	resetGlobals();
 	/*Font = TTF_OpenFont("font.ttf", 12);
 	SmallFont = TTF_OpenFont("font.ttf", 11);
 	*/
@@ -2831,7 +2852,7 @@ static void setupGame()
 	pd->graphics->setBackgroundColor(kColorWhite);
 }
 
-static void destroyGame()
+static void TerminateGame()
 {
 	UnLoadGraphics();
 	delete Input;
@@ -2954,7 +2975,7 @@ int eventHandler(PlaydateAPI* playdate, PDSystemEvent event, uint32_t arg)
 
 	if (event == kEventTerminate)
 	{
-		destroyGame();
+		TerminateGame();
 	}
 	return 0;
 }

@@ -1,11 +1,14 @@
 #include <string.h>
 #include <pd_api.h>
-#include "SDL_HelperTypes.h"
+#include "sdl_helpertypes.h"
 #include "pd_helperfuncs.h"
-
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
 
 PlaydateAPI* pd;
 LCDBitmap *Buffer = NULL;
+static volatile char pdDelayDummy;
 
 typedef struct DrawTextColorBitmapCacheItem DrawTextColorBitmapCacheItem;
 struct DrawTextColorBitmapCacheItem
@@ -335,8 +338,15 @@ void setPDPtr(PlaydateAPI* playdate)
 
 void pdDelay(unsigned int milliseconds)
 {
+#ifdef __EMSCRIPTEN__
+	emscripten_sleep(milliseconds);
+#else
 	unsigned int start = pd->system->getCurrentTimeMilliseconds();
-	while (start + milliseconds > pd->system->getCurrentTimeMilliseconds());
+	while (start + milliseconds > pd->system->getCurrentTimeMilliseconds())
+	{
+		(void)pdDelayDummy;
+	}
+#endif
 }
 
 bool pdFileExists(char* Path)

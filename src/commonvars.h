@@ -53,7 +53,7 @@ extern SFont_Font *FontDark, *FontLight;
 extern CCursor * Cursor;
 extern int GameState, NextGameState;
 extern int HighScores[MAXSTATICLEVELS];
-extern int lvl, MaxLevels, UserLevelCount, MusicCount, SelectedMusic, Volume, StartScreenX, StartScreenY, InitialStartScreenX, InitialStartScreenY;
+extern int lvl, MaxLevels, UserLevelCount;
 extern bool StaticLevels, SaveEnabled;
 extern char GetNameText[256];
 extern bool GetNameResult;
