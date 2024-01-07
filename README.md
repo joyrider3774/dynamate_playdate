@@ -39,12 +39,52 @@ Levels are saved in the data folder of the game under the "levels" folder. You c
 The other people will just need to extract your levels pack in the same folder on their own playdate and the levels will appear on their playdate as well. 
 feel free to contact me if you created some good levels and want your level packs to be included in the download of the game
 
+### Play version with colored graphics
+The windows, mac, (self build) linux and html (web assembly) versions can switch out the default playdate graphics with colored graphics if you press the F3 button on the keyboard or the X Button on your (xbox) gamepad. 
+The game will restart with the next source folder and remember which source folder you are using the next time you start the game.
+
+
 ## Controls 
+
+### Playdate
 | Button | Action |
 | ------ | ------ |
 | Dpad or Crank | Select menu's, options or levels to play. Move the selector. During level editor mode, select a different level piece with the crank |
-| A | Confirm in menu and level selector, Holding (A) on a movable piece and pressing a direction with the Dpad will move that piece in said direction ,place a level piece in level editor mode |
+| A | Confirm in menu and level selector, Holding (A) on a movable piece and pressing a direction with the Dpad will move that piece in said direction, place a level piece in level editor mode |
 | B | Back in menus, level selector and game |
+| F3 | Switch Source Folders (switch between playdate and colored graphics) |
+| F4 | Quit game |
+| F5 | Dock Crank |
+| F6 | Undock Crank |
+| F7 | Hold to move Crank backwards, select previous level piece in level editor |
+| F8 | Hold to move Crank forwards, select next level piece in level editor |
+
+### Controls Windows / mac / Browser (keyboard)
+| Key | Action |
+| ------ | ------ |
+| Arrow keys | Select menu's, options or levels to play. Move the selector. |
+| X | Confirm in menu and level selector, Holding (A) on a movable piece and pressing a direction with the Dpad will move that piece in said direction, place a level piece in level editor mode |
+| C | Back in menus, level selector and game |
+| F | Switch between full screen & windowed mode |
+| F3 | Switch Source Folders (switch between playdate and colored graphics) |
+| F4 | Quit game |
+| F5 | Dock Crank |
+| F6 | Undock Crank |
+| F7 | Hold to move Crank backwards, select previous level piece in level editor |
+| F8 | Hold to move Crank forwards, select next level piece in level editor |
+
+### Controls Windows / mac / Browser (Gamepad)
+| Button | Action |
+| ------ | ------ |
+| dpad & joystick | Select menu's, options or levels to play. During gameplay move the player left or right. |
+| A Button | Confirm in menu and level selector, pickup or drop a block in game mode |
+| B Button | Back in menu, level selector and game |
+| X Button | Switch Source Folders (switch between playdate and colored graphics) |
+| LT | Dock Crank |
+| RT | Undock Crank |
+| LB | Hold to move Crank backwards, prev block in level editor |
+| RB | Hold to move Crank forwards, next block in level editor |
+
 
 ## Credits
 - Dynamate for playdate (and gp2x) is created by Willems Davy.
