@@ -13,7 +13,7 @@
 #include "CInput.h"
 #include "Functions.h"
 #include "pd_helperfuncs.h"
-#include "SDL_HelperTypes.h"
+#include "sdl_helpertypes.h"
 #include "commonvars.h"
 #include "CAudio.h"
 

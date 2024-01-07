@@ -31,7 +31,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include "SFont.h"
-#include "SDL_HelperTypes.h"
+#include "sdl_helpertypes.h"
 
 PlaydateAPI *spd;
 
