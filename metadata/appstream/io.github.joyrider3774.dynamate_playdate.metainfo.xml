@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.joyrider3774.dynamate_playdate</id>
+  
+  <name>Dynamate</name>
+  <summary>Dynamate is a sliding pieces logic puzzle game invented by Björn Kalzen and Jonas Norberg</summary>
+  
+  <metadata_license>MIT</metadata_license>
+  <project_license>LGPL-2.1-only</project_license>
+  
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>gamepad</control>
+  </supports>
+  
+  <description>
+    <p>
+      In 1995 Jonas Norberg and his friend Björn Kalzen developed the game initially for the Amiga. Björn programmed and made levels, Jonas did the graphics, music and levels. The game was released as licenceware by F1 in U.K. but only eleven persons discovered the game (according to F1). Since then Jonas has ported it to a few platforms himself and some other guys have ported it to other platforms including me for the gp2x and this Playdate version.
+    </p>
+    <p>
+      The game features 30 default levels with increasing difficulty, Adapted numbered pieces for the playdate skin since 1 bit graphics can&apos;t display colors to make it easier to recognize them as well as a Level Editor to create your own levels to share with others
+    </p>
+    <p>
+      The aim of the game, in any level, is to clear the level of the numbered (or colored) pieces (depending on the active skin). Pieces can be removed in a predefined way by moving another piece into them. There are also pieces affecting the currently moving piece.
+    </p>
+  </description>
+  
+  <launchable type="desktop-id">io.github.joyrider3774.dynamate_playdate.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/joyrider3774/dynamate_playdate/main/metadata/screenshots/Dynamate-screenshot4.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/joyrider3774/dynamate_playdate/main/metadata/screenshots/Dynamate-screenshot3.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/joyrider3774/dynamate_playdate/main/metadata/screenshots/Dynamate-screenshot1.png</image>
+    </screenshot>
+  </screenshots>
+</component>

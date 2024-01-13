@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+
+Name=Dynamate
+Comment=Dynamate is a sliding pieces logic puzzle game invented by Björn Kalzen and Jonas Norberg
+Categories=Game;LogicGame;
+
+Icon=io.github.joyrider3774.dynamate_playdate
+Exec=dynamate_playdate
+Terminal=false
