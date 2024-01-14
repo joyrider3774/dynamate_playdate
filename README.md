@@ -47,6 +47,7 @@ The game will restart with the next source folder and remember which source fold
 ## Controls 
 
 ### Playdate
+
 | Button | Action |
 | ------ | ------ |
 | Dpad or Crank | Select menu's, options or levels to play. Move the selector. During level editor mode, select a different level piece with the crank |
@@ -60,6 +61,7 @@ The game will restart with the next source folder and remember which source fold
 | F8 | Hold to move Crank forwards, select next level piece in level editor |
 
 ### Controls Windows / mac / Browser (keyboard)
+
 | Key | Action |
 | ------ | ------ |
 | Arrow keys | Select menu's, options or levels to play. Move the selector. |
@@ -74,6 +76,7 @@ The game will restart with the next source folder and remember which source fold
 | F8 | Hold to move Crank forwards, select next level piece in level editor |
 
 ### Controls Windows / mac / Browser (Gamepad)
+
 | Button | Action |
 | ------ | ------ |
 | dpad & joystick | Select menu's, options or levels to play. During gameplay move the player left or right. |
