@@ -1,0 +1,8 @@
+{
+"package":"io.github.joyrider3774.dynamate",
+"label":"Dynamate",
+"icon":"icon.png",
+"iconsel":"icon.png",
+"launch":"launch.sh",
+"description":"Dynamate Playdate Created by Joyrider3774"
+}
