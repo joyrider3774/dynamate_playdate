@@ -74,7 +74,7 @@ SFont_Font* SFont_InitFont(LCDBitmap* Surface)
 void SFont_FreeFont(SFont_Font* FontInfo)
 {
     spd->graphics->freeBitmap(FontInfo->Surface);
-    free(FontInfo);
+    spd->system->realloc(FontInfo, 0);
 }
 
 void SFont_Write(LCDBitmap *Surface, const SFont_Font *Font,
