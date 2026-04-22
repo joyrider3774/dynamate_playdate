@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - {artiface_name: Dynamate, pdx: Dynamate_DEVICE.pdx, output-pdx: Dynamate.pdx, env: playdate }
+          - {artiface_name: Dynamate, pdx: Dynamate.pdx, output-pdx: Dynamate.pdx, env: playdate }
           
     runs-on: ubuntu-latest       
     steps:
